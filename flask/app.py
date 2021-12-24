@@ -1,15 +1,17 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
+from dateutil import parser
+import datetime
 
 app = Flask(__name__)
 
 
 @app.route('/services/calculator', methods=['PUT'])
-def calculator(arguments: dict) -> dict:
+def calculator() -> dict:
     """Returns solved equation."""
 
-    operator = arguments['operation']
-    value_1 = arguments['a']
-    value_2 = arguments['b']
+    operator = request.args.get('operation')
+    value_1 = int(request.args.get('a'))
+    value_2 = int(request.args.get('b'))
 
     if operator == 'sum':
         result = value_1 + value_2
@@ -24,6 +26,20 @@ def calculator(arguments: dict) -> dict:
         result = value_1 / value_2
 
     return {"result": result}
+
+
+@app.route('/services/date-fmt', methods=['PUT'])
+def dateCalculator():
+    """Adds time delta to provided date."""
+
+    current_date = parser.isoparse(request.args.get('date'))
+    delta = int(request.args.get('days'))
+
+    end_date = current_date + datetime.timedelta(days=delta)
+
+    string = str(end_date)
+
+    return {"date": string}
 
 
 if __name__ == '__main__':

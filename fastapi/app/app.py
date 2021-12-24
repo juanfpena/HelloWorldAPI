@@ -29,7 +29,7 @@ def calculator(calc_json: dict) -> dict:
 
 
 @app.put('/services/date-fmt', tags=['date-fmt'])
-def date_delta_calculator(date_json: dict) -> dict:
+def dateCalculator(date_json: dict) -> dict:
     """Adds time delta to provided date."""
 
     current_date = parser.parse(date_json['date'])
