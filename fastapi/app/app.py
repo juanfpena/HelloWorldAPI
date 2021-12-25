@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.testclient import TestClient
 from dateutil import parser
 import datetime
 
