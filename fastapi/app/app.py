@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 from dateutil import parser
 import datetime
 
@@ -37,6 +38,6 @@ def dateCalculator(date_json: dict) -> dict:
 
     end_date = current_date + datetime.timedelta(days=delta)
 
-    string = str(end_date)
+    string = str(end_date.isoformat())
 
     return {"date": string}
