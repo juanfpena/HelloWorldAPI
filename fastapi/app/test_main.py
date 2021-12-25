@@ -4,11 +4,6 @@ from fastapi.testclient import TestClient
 client = TestClient(app=app)
 
 
-def test_read_main():
-    response = client.get('/')
-    assert response.status_code == 404
-
-
 def test_put_calculator():
     response = client.put(
         '/services/calculator', json={"a": 1, "b": 2, "operation": "mul"}
