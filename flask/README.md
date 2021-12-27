@@ -22,10 +22,7 @@ arg3 = operation to be made, select value from dict:
 'division': 'div'}
 
 ```
-curl -X 'PUT' 'http://127.0.0.1:5000/services/calculator' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{"a": arg1, "b": arg2, "operation": arg3}'
+curl --location --request PUT 'http://127.0.0.1:5000/services/calculator?a={arg1}&b={arg2}&operation={arg3}'
 ```
 
 ### Date-fmt
@@ -36,8 +33,5 @@ arg1 = date to modify
 arg2 = days to add to date 1
 
 ```
-curl -X 'PUT' 'http://127.0.0.1:5000/services/date-fmt' \
-  -H 'accept: application/json' \
-  -H 'Content-Type: application/json' \
-  -d '{"date": arg1, "days": arg2}'
+curl --location --request PUT 'http://127.0.0.1:5000/services/calculator?date={arg1}&days={arg2}'
 ```
