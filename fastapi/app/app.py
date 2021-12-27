@@ -5,7 +5,7 @@ import datetime
 app = FastAPI()
 
 
-@app.put('/services/calculator', tags=['calculator'])
+@app.post('/services/calculator', tags=['calculator'])
 def calculator(calc_json: dict) -> dict:
     """Returns solved equation."""
 
@@ -28,7 +28,7 @@ def calculator(calc_json: dict) -> dict:
     return {"result": result}
 
 
-@app.put('/services/date-fmt', tags=['date-fmt'])
+@app.post('/services/date-fmt', tags=['date-fmt'])
 def dateCalculator(date_json: dict) -> dict:
     """Adds time delta to provided date."""
 
