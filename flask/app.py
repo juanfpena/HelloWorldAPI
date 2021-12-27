@@ -5,7 +5,7 @@ import datetime
 app = Flask(__name__)
 
 
-@app.route('/services/calculator', methods=['POST'])
+@app.route('/services/calculator', methods=['PUT', 'GET'])
 def calculator() -> dict:
     """Returns solved equation."""
 
@@ -28,8 +28,8 @@ def calculator() -> dict:
     return {"result": result}
 
 
-@app.route('/services/date-fmt', methods=['POST'])
-def dateCalculator():
+@app.route('/services/date-fmt', methods=['PUT', 'GET'])
+def dateCalculator() -> dict:
     """Adds time delta to provided date."""
 
     current_date = parser.isoparse(request.args.get('date'))
@@ -37,7 +37,7 @@ def dateCalculator():
 
     end_date = current_date + datetime.timedelta(days=delta)
 
-    string = str(end_date)
+    string = str(end_date.isoformat())
 
     return {"date": string}
 
