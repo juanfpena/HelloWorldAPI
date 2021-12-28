@@ -1,45 +1,55 @@
-from flask import Flask, request
+from flask import Flask, json, request, render_template, jsonify
 from dateutil import parser
 import datetime
+from functionalities.calculator import calculator_func
+from functionalities.datefmt import dateCalculator_func
 
 app = Flask(__name__)
 
 
-@app.route('/services/calculator', methods=['PUT', 'GET'])
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/services/calculator', methods=['POST', 'GET'])
 def calculator() -> dict:
     """Returns solved equation."""
 
-    operator = request.args.get('operation')
-    value_1 = int(request.args.get('a'))
-    value_2 = int(request.args.get('b'))
+    data = request.get_json()
 
-    if operator == 'sum':
-        result = value_1 + value_2
+    if request.method == 'GET':
+        return render_template('calculator.html')
 
-    elif operator == 'sub':
-        result = value_1 - value_2
+    if request.method == 'POST':
 
-    elif operator == 'mul':
-        result = value_1 * value_2
+        operator = data['operation']
+        value_1 = data['a']
+        value_2 = data['b']
 
-    elif operator == 'div':
-        result = value_1 / value_2
+        result = calculator_func(
+            num_a=value_1, num_b=value_2, operator=operator)
 
-    return {"result": result}
+        return jsonify({"result": result})
 
 
-@app.route('/services/date-fmt', methods=['PUT', 'GET'])
+@app.route('/services/date-fmt', methods=['POST', 'GET'])
 def dateCalculator() -> dict:
     """Adds time delta to provided date."""
 
-    current_date = parser.isoparse(request.args.get('date'))
-    delta = int(request.args.get('days'))
+    data = request.get_json()
 
-    end_date = current_date + datetime.timedelta(days=delta)
+    if request.method == 'GET':
+        pass
 
-    string = str(end_date.isoformat())
+    if request.method == 'POST':
 
-    return {"date": string}
+        current_date = parser.isoparse(data['date'])
+        delta = int(data['days'])
+
+        string = dateCalculator_func(current_date=current_date, days=delta)
+
+        return jsonify({"date": string})
 
 
 if __name__ == '__main__':
