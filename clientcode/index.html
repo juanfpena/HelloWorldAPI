@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>My piece of shit Application</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  
+</head>
+
+<body>
+<h1>Calculator</h1>
+<form id="calculatorForm">
+    <p>
+        <label for="a">a</label>
+        <input type="number" name="a" id="calcA">
+    </p>
+    <p>
+        <label for="b">b</label>
+        <input type="number" name="b" id="calcB">
+    </p>
+    <p>
+        <label for="operation">operator</label>
+        <select name="operation" id="calcOperation">
+            <option value="sum">Sum</option>
+            <option value="sub">Subtract</option>
+            <option value="mul">Multiply</option>
+            <option value="div">Divide</option>
+        </select>
+    </p>
+    <input type="button" value="calculate" id="botonCalc">
+</form>
+<div>
+    <p>
+        <label for="Result">Result: </label>
+        <label for="resultCalculator" id='calcResult'></label>
+    </p>
+</div>
+
+<h1>Date-ftm</h1>
+<form id="dateFmtForm">
+    <p>
+        <label for="date">Date</label>
+        <input type="datetime" name="date" id="dateInput">
+    </p>
+    <p>
+        <label for="days">Days</label>
+        <input type="number" name="days" id="daysInput">
+    </p>
+    <input type="button" value="add days" id="botonDate">
+</form>
+    <p>
+        <label for="Date">Date: </label>
+        <label for="resultDate" id='dateResult'></label>
+    </p>
+</body>
+
+<script src="index.js"></script>
+<script>
+
+    const calcForm = document.querySelector('#calculatorForm');
+    const dateForm = document.querySelector('#dateFmtForm');
+    const host_url = 'http://127.0.0.1:5000';
+
+    function ajaxCalc () {
+        const xhr = new XMLHttpRequest();
+        const calc_url = host_url + '/services/calculator';
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(this.responseText);
+                document.getElementById('calcResult').innerHTML = JSON.parse(this.responseText)['result']
+            }
+        }
+
+        let arg1 = document.getElementById('calcA').value;
+        let arg2 = document.getElementById('calcB').value;
+        let operation = document.getElementById('calcOperation').value;
+
+        xhr.open('POST', calc_url);
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.send(JSON.stringify({
+            "a": arg1,
+            "b": arg2,
+            "operation": operation
+        }));
+    };
+
+
+    function ajaxDate () {
+        const xhr = new XMLHttpRequest();
+        const date_url = host_url + '/services/date-fmt';
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                console.log(this.responseText);
+                document.getElementById('dateResult').innerHTML = JSON.parse(this.responseText)['date']
+            };
+        };
+
+        let date = document.getElementById('dateInput').value;
+        let days = document.getElementById('daysInput').value;
+
+        xhr.open('POST', date_url)
+        xhr.setRequestHeader("Content-Type", "application/json")
+        xhr.send(JSON.stringify({
+            "date": date,
+            "days": days
+        }));
+    };
+
+
+
+    document.getElementById('botonDate').addEventListener('click', function () {
+        ajaxDate()
+    });
+
+
+
+    document.getElementById('botonCalc').addEventListener('click', function () {
+        ajaxCalc();
+    });
+
+</script>
+
+</html>
