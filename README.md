@@ -1,4 +1,4 @@
-# Hello_world_API
+# HelloWorldAPI
 
 This program is made to be used in either a Mac or Linux based distro computer.
 
