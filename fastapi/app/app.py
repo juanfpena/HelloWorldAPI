@@ -3,6 +3,7 @@ from dateutil import parser
 import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from .functionalities.calculator import calcFunc
+from .functionalities.date_fmt import date_fmt
 
 
 app = FastAPI()
@@ -46,8 +47,6 @@ async def dateCalculator(date_json: dict) -> dict:
     current_date = parser.parse(date_json['date'])
     delta = int(date_json['days'])
 
-    end_date = current_date + datetime.timedelta(days=delta)
-
-    string = str(end_date.isoformat())
+    string = date_fmt(date=current_date, days=delta)
 
     return {"date": string}

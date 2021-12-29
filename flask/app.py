@@ -1,9 +1,11 @@
-from flask import Flask, json, request, render_template, jsonify
+from flask import Flask, request, render_template, jsonify
 from dateutil import parser
 from functionalities.calculator import calculator_func
 from functionalities.datefmt import dateCalculator_func
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app=app)
 
 
 @app.route('/')
